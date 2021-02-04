@@ -15,7 +15,8 @@ COPY ./telegraf.conf /etc/telegraf.conf
 COPY ./start.sh /tmp/
 RUN chmod +x /tmp/start.sh
 
-RUN wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz && tar -xvzf phpMyAdmin-5.0.4-all-languages.tar.gz && rm -f phpMyAdmin-5.0.4-all-languages.tar.gz
+COPY ./phpMyAdmin-5.0.4-all-languages.tar.gz .
+RUN  tar -xvzf phpMyAdmin-5.0.4-all-languages.tar.gz && rm -f phpMyAdmin-5.0.4-all-languages.tar.gz
 RUN mv phpMyAdmin-5.0.4-all-languages /www/phpmyadmin
 COPY ./config.inc.php /www/phpmyadmin/config.inc.php
 
