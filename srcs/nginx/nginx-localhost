@@ -5,11 +5,19 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name 192.168.99.101;
+    server_name 172.26.185.200;
     ssl_certificate /etc/ssl/certs/nginx.crt;
     ssl_certificate_key /etc/ssl/private/nginx.key;
 
     location / {
     try_files $uri $uri/ =404;
     }
+
+    location /wordpress {
+    return 307 	http://$host:5050;
+    }
+    
+    location /phpmyadmin {
+	return 307	http://$host:5000;
+	}
 }

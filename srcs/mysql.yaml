@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-svc
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+    name: mysql-volume
+    labels:
+        type: local
+        volume-svc: mysql
+spec:
+    storageClassName: manual
+    capacity:
+        storage: 500Mi
+    accessModes:
+        - ReadWriteOnce
+    hostPath:
+        path: "/mnt/mysql"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: mysql-volume-claim
+    labels:
+        app: mysql
+spec:
+    storageClassName: manual
+    accessModes:
+        - ReadWriteOnce
+    resources:
+        requests:
+            storage: 400Mi
+    selector:
+        matchLabels:
+            type: local
+            volume-svc: mysql
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mysql_image # имя имейджа
+          imagePullPolicy: Never # запрещаем искать в докер хабе
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+              - name: mysql-volume
+                mountPath: /var/lib/mysql
+      volumes:
+          - name: mysql-volume
+            persistentVolumeClaim:
+                claimName: mysql-volume-claim
