@@ -16,8 +16,8 @@ server {
     location /wordpress {
     return 307 	http://$host:5050;
     }
-    
+
     location /phpmyadmin {
-	return 307	http://$host:5000;
+	    proxy_pass http://172.26.185.200:5000/;
 	}
 }
