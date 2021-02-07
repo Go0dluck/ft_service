@@ -5,7 +5,7 @@ server {
 server {
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name 172.26.185.200;
+    server_name 172.27.70.200;
     ssl_certificate /etc/ssl/certs/nginx.crt;
     ssl_certificate_key /etc/ssl/private/nginx.key;
 
@@ -17,7 +17,8 @@ server {
     return 307 	http://$host:5050;
     }
 
-    location /phpmyadmin {
-	    proxy_pass http://172.26.185.200:5000/;
+    location /phpmyadmin/ {
+        proxy_set_header X-Forwarded-Proto https;
+	    proxy_pass http://172.27.70.200:5000/;
 	}
 }

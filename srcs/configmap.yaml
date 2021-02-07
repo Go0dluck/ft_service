@@ -9,4 +9,4 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 172.26.185.200/32
+      - 172.27.70.200/32

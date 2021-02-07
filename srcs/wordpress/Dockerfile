@@ -15,7 +15,8 @@ COPY ./telegraf.conf /etc/telegraf.conf
 COPY ./start.sh /tmp/
 RUN chmod +x /tmp/start.sh
 
-RUN wget https://ru.wordpress.org/latest-ru_RU.tar.gz && tar -xvzf latest-ru_RU.tar.gz && rm -f latest-ru_RU.tar.gz
+COPY ./wordpress-5.6.1-ru_RU.tar.gz .
+RUN tar -xvzf wordpress-5.6.1-ru_RU.tar.gz && rm -f wordpress-5.6.1-ru_RU.tar.gz
 RUN mv wordpress /www/wordpress
 COPY ./wp-config.php /www/wordpress
 

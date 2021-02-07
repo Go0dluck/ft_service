@@ -6,6 +6,9 @@ kubectl delete --all services
 kubectl delete --all pvc
 kubectl delete --all pv
 
+sudo rm -rf /mnt/mysql/
+sudo rm -rf /mnt/influxdb/
+
 docker container prune -f
 docker image prune -f
 docker rmi mysql_image
